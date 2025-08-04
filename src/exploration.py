@@ -1,5 +1,4 @@
 import json
-import pandas as pd
 
 class Exploration:
     """
@@ -7,7 +6,7 @@ class Exploration:
     Each investigation has its own methodology
     """
     def __init__(self, data):
-        self.__dataset = pd.read_csv(data)
+        self.__dataset = data
         self.__total_tweets = {"antisemitic": 0,
                              "non_antisemitic": 0,
                              "total": 0,
@@ -189,6 +188,6 @@ class Exploration:
                            "uppercase_words": self.__uppercase_words
                            }
         json_exploration = json.dumps(dic_exploration)
-        with open("C:\PyCharm\\tweets_dataset\\results\\results.json", "w") as f:
+        with open("../results/results.json", "w") as f:
             f.write(json_exploration)
 
