@@ -153,4 +153,19 @@ class Exploration:
                     break
             counter += 1
 
+    def uppercase_words(self):
+        """
+        Count how many words in capital letters there are by category and total
+        """
+        if self.__dataset is None:
+            raise ValueError("\nThe dataset is empty")
 
+        for idx, row in self.__dataset.iterrows():
+            words = row["Text"].split(" ")
+            for word in words:
+                if word.isupper():
+                    if row["Biased"] == 1:
+                        self.__uppercase_words["antisemitic"] += 1
+                    elif row["Biased"] == 0:
+                        self.__uppercase_words["non_antisemitic"] += 1
+        self.__uppercase_words["total"] = self.__uppercase_words["antisemitic"] + self.__uppercase_words["non_antisemitic"]
