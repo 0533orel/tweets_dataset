@@ -1,10 +1,13 @@
+import json
+import pandas as pd
+
 class Exploration:
     """
     This department investigates the data from several different perspectives.
     Each investigation has its own methodology
     """
     def __init__(self, data):
-        self.__dataset = data
+        self.__dataset = pd.read_csv(data)
         self.__total_tweets = {"antisemitic": 0,
                              "non_antisemitic": 0,
                              "total": 0,
@@ -169,3 +172,23 @@ class Exploration:
                     elif row["Biased"] == 0:
                         self.__uppercase_words["non_antisemitic"] += 1
         self.__uppercase_words["total"] = self.__uppercase_words["antisemitic"] + self.__uppercase_words["non_antisemitic"]
+
+    def export_to_json_file(self):
+        if self.__dataset is None:
+            raise ValueError("\nThe dataset is empty")
+
+        self.total_tweets()
+        self.average_length()
+        self.common_words()
+        self.longest_3_tweets()
+        self.uppercase_words()
+        dic_exploration = {"total_tweets": self.__total_tweets,
+                           "average_length": self.__average_length,
+                           "common_words": self.__common_words,
+                           "longest_3_tweets": self.__longest_3_tweets,
+                           "uppercase_words": self.__uppercase_words
+                           }
+        json_exploration = json.dumps(dic_exploration)
+        with open("C:\PyCharm\\tweets_dataset\\results\\results.json", "w") as f:
+            f.write(json_exploration)
+
