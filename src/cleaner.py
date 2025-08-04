@@ -7,5 +7,5 @@ class Cleaner:
         self.removing_punctuation_marks()
 
     def removing_punctuation_marks(self):
-        self.dataset["Text"].replace("," " ")
+        self.dataset = self.dataset["Text"].replace("," " ")
 
