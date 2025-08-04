@@ -74,4 +74,46 @@ class Exploration:
         else:
             raise ValueError("\nCannot divide by zero (No tweets)")
 
+    def common_words(self):
+        """
+        Calculates the 10 most common words in all tweets
+        """
+        if self.__dataset is None:
+            raise ValueError("\nThe dataset is empty")
+
+        special_characters = "!@#$%^&*()_-+=|\\}]{[\"':;?/>.<,"
+        numbers = "1234567890"
+        dic_count_words = {}
+        lis_words = []
+
+        for idx, row in self.__dataset.iterrows():
+            words = row["Text"].split(" ")
+            for word in words:
+                lis_words.append(word)
+
+        for word in lis_words:
+            wrd = ""
+            for c in word:
+                if c not in special_characters and c not in numbers:
+                    wrd += c
+            if wrd != "":
+                wrd = wrd.lower()
+                if wrd in dic_count_words:
+                    dic_count_words[wrd] += 1
+                else:
+                    dic_count_words[wrd] = 1
+
+        lis_nums = []
+        for val in dic_count_words.values():
+            lis_nums.append(val)
+        lis_nums.sort()
+        lis_nums.reverse()
+
+        counter = 0
+        while counter < 10:
+            for key, val in dic_count_words.items():
+                if val == lis_nums[counter]:
+                    self.__common_words["total"].append(key)
+                    break
+            counter += 1
 
