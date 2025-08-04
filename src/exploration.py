@@ -106,8 +106,7 @@ class Exploration:
         lis_nums = []
         for val in dic_count_words.values():
             lis_nums.append(val)
-        lis_nums.sort()
-        lis_nums.reverse()
+        lis_nums.sort(reverse=True)
 
         counter = 0
         while counter < 10:
@@ -116,4 +115,42 @@ class Exploration:
                     self.__common_words["total"].append(key)
                     break
             counter += 1
+
+    def longest_3_tweets(self):
+        """
+        Count the 3 tweets with the most text in each category.
+        """
+        if self.__dataset is None:
+            raise ValueError("\nThe dataset is empty")
+
+        dic_tweets_antisemitic = {}
+        dic_tweets_non_antisemitic = {}
+        for idx, row in self.__dataset.iterrows():
+            if row["Biased"] == 1:
+                dic_tweets_antisemitic[row["Text"]] = len(row["Text"])
+            elif row["Biased"] == 0:
+                dic_tweets_non_antisemitic[row["Text"]] = len(row["Text"])
+
+        lis_nums_antisemitic = []
+        for val in dic_tweets_antisemitic.values():
+            lis_nums_antisemitic.append(val)
+        lis_nums_antisemitic.sort(reverse=True)
+
+        lis_nums_non_antisemitic = []
+        for val in dic_tweets_non_antisemitic.values():
+            lis_nums_non_antisemitic.append(val)
+        lis_nums_non_antisemitic.sort(reverse=True)
+
+        counter = 0
+        while counter < 3:
+            for key, val in dic_tweets_antisemitic.items():
+                if val == lis_nums_antisemitic[counter]:
+                    self.__longest_3_tweets["antisemitic"].append(key)
+                    break
+            for key, val in dic_tweets_non_antisemitic.items():
+                if val == lis_nums_non_antisemitic[counter]:
+                    self.__longest_3_tweets["non_antisemitic"].append(key)
+                    break
+            counter += 1
+
 
