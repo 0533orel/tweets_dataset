@@ -154,6 +154,9 @@ class Exploration:
             counter += 1
 
     def uppercase_words(self):
+        """
+        Count how many words in capital letters there are by category and total
+        """
         if self.__dataset is None:
             raise ValueError("\nThe dataset is empty")
 
